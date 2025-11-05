@@ -1,0 +1,22 @@
+name: build-and-upload-zip
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          mkdir -p build
+          echo "hello" > build/hello.txt
+      - name: Make archive
+        run: zip -r artifact.zip build/
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: artifact.zip
+          retention-days: 14
